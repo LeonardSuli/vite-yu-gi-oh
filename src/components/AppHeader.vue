@@ -10,7 +10,7 @@ export default{
 
     <header>
         <img src="/logo.jpg" alt="">
-        <h1>Yu-Gi-Oh Api</h1>
+        <div>Yu-Gi-Oh Api</div>
     </header>
 
 </template>
@@ -20,13 +20,16 @@ export default{
 
 header{
     display: flex;
-    background-color: red;
+    background-color: white;
 }
 
 img{
-    width: 150px;
+    width: 100px;
+    margin: 1rem;
 }
 
-
+div{
+    font-size: 50px;
+}
 
 </style>
