@@ -2,20 +2,18 @@
 
 import axios from 'axios';
 
-// import CharacterCard from './CharacterCard.vue'
-
+import CharacterCard from './CharacterCard.vue'
 
 export default{
     name: 'AppMain',
-    // components:{
-    //     CharacterCard
-    // },
+    components:{
+        CharacterCard
+    },
     data(){
     return{
     //   base_api_url: 'https://db.ygoprodeck.com/api/v7/cardinfo.php',
       base_api_url: 'https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0',
       characters: [], //o null, o [], o '';
-      characters_image:[]
     }
   },
   mounted(){
@@ -54,7 +52,7 @@ export default{
 
                 <div class="row">
     
-                    <div class="col" v-for="character in characters">
+                    <!-- <div class="col" v-for="character in characters">
     
                         <div class="card">
                             <img :src="character.card_images[0].image_url" alt="">
@@ -62,7 +60,13 @@ export default{
                             <div class="archetype">{{ character.archetype }}</div>
                         </div>
     
-                    </div>
+                    </div> -->
+
+                    <CharacterCard 
+                        v-for="character in characters" 
+                        :key="character.id + '_character'"
+                        :character="character">
+                    </CharacterCard>
     
                 </div>
 
@@ -106,26 +110,6 @@ select{
     /* background-color: red; */
 }
 
-.col{
-    width: calc(100% / 5);
-    /* background-color: blue; */
-}
-
-.card{
-    text-align: center;
-    background-color: #d48f38;
-}
-
-.card img{
-    width: 100%;
-}
-
-.name{
-    color: white;
-    font-size: 18px;
-    padding: 1rem;
-    text-transform: uppercase;
-}
 
 
 
