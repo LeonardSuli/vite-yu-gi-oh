@@ -40,7 +40,6 @@ export default{
 
 .name{
     color: white;
-    font-size: 18px;
     padding: 1rem;
     text-transform: uppercase;
 }

@@ -16,6 +16,13 @@ export default{
       characters: [], //o null, o [], o '';
     }
   },
+  computed:{
+    getResults(){
+
+      return this.characters ? this.characters.length : 'Nessun risultato'
+
+    }
+  },
   mounted(){
 
     axios
@@ -48,10 +55,16 @@ export default{
 
             <div class="card_found">
 
-                <div class="card_found_total">FOUND 39 CARDS</div>
+                <div class="card_found_total">FOUND {{getResults}} CARDS</div>
 
                 <div class="row">
     
+                    <CharacterCard 
+                        v-for="character in characters" 
+                        :key="character.id + '_character'"
+                        :character="character">
+                    </CharacterCard>
+
                     <!-- <div class="col" v-for="character in characters">
     
                         <div class="card">
@@ -61,12 +74,6 @@ export default{
                         </div>
     
                     </div> -->
-
-                    <CharacterCard 
-                        v-for="character in characters" 
-                        :key="character.id + '_character'"
-                        :character="character">
-                    </CharacterCard>
     
                 </div>
 
@@ -105,12 +112,5 @@ select{
     background-color: black;
     padding: 1rem;
 }
-
-.row{
-    /* background-color: red; */
-}
-
-
-
 
 </style>
