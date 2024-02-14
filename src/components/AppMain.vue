@@ -2,38 +2,53 @@
 
 import axios from 'axios';
 
-import CharacterCard from './CharacterCard.vue'
+import CharacterCard from './CharacterCard.vue';
+import LoadingIcon from './LoadingIcon.vue';
 
 export default{
     name: 'AppMain',
     components:{
-        CharacterCard
+        CharacterCard,
+        LoadingIcon,
     },
     data(){
     return{
     //   base_api_url: 'https://db.ygoprodeck.com/api/v7/cardinfo.php',
       base_api_url: 'https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0',
       characters: [], //o null, o [], o '';
+      loading: true,
+
     }
   },
   computed:{
+
     getResults(){
 
       return this.characters ? this.characters.length : 'Nessun risultato'
 
     }
+
   },
   mounted(){
 
-    axios
-    .get(this.base_api_url)
-    .then((response) => {
+    // Inseriamo il setTimeout per far ritardare di qualche secondo la chiamata
+    setTimeout(() => {
 
-        console.log(this.characters);
-        console.log(response.data.data[0].card_images[0].image_url);
+        axios
+        .get(this.base_api_url)
+        .then((response) => {
 
-      this.characters = response.data.data
-    })
+            console.log(this.characters);
+            console.log(response.data.data[0].card_images[0].image_url);
+
+            this.characters = response.data.data
+
+            this.loading = false
+
+        })
+
+    }, 3000)
+    
   }
 }
 </script>
@@ -57,7 +72,8 @@ export default{
 
                 <div class="card_found_total">FOUND {{getResults}} CARDS</div>
 
-                <div class="row">
+                <!-- Inseriamo un loading -->
+                <div class="row" v-if="!loading">
     
                     <CharacterCard 
                         v-for="character in characters" 
@@ -76,6 +92,16 @@ export default{
                     </div> -->
     
                 </div>
+
+                <!-- Inseriamo un loading -->
+                <!-- <div>
+
+                    Loading...
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+
+                </div> -->
+
+                <LoadingIcon v-else></LoadingIcon>
 
             </div>
 
