@@ -10,4 +10,4 @@ export default{
 </template>
 
 
-<style></style>
+<style scoped></style>

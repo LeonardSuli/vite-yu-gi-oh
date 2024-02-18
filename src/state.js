@@ -8,6 +8,8 @@ export const state = reactive({
     base_api_url: 'https://db.ygoprodeck.com/api/v7/cardinfo.php?num=100&offset=0',
     characters: [],       //o null, o [], o '';
     loading: true,
+    archetypes: [],
+    selectedArchetype: '',
 
 
 
@@ -34,10 +36,28 @@ export const state = reactive({
 
         .catch((error) => {
       
-        console.error(error.response.data.error);
-
-        this.error = error.response.data.error
+        console.error(error);
     
+        })
+
+    },
+
+
+
+    getArchetypesList(url){
+
+        axios
+        .get(url)
+        .then((response) => {
+
+            console.log(response);
+
+            this.archetypes = response.data
+        })
+        .catch((error) => {
+    
+        console.error(error);
+
         })
 
     },

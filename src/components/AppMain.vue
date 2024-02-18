@@ -1,18 +1,19 @@
 <script>
 
-import axios from 'axios';
-import {state} from '../state'
+import {state} from '../state.js'
 
 // import axios from 'axios';          //spostato nello state
 
 import CharacterCard from './CharacterCard.vue';
 import LoadingIcon from './LoadingIcon.vue';
+import ArchetypesFilter from './ArchetypesFilter.vue'
 
 export default{
     name: 'AppMain',
     components:{
         CharacterCard,
         LoadingIcon,
+        ArchetypesFilter,
     },
     
     data(){
@@ -20,14 +21,12 @@ export default{
 
             state,
             
-
             // //   base_api_url: 'https://db.ygoprodeck.com/api/v7/cardinfo.php',                     //spostato nello state 
             // base_api_url: 'https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0',
             // characters: [], //o null, o [], o '';
             // loading: true,
-            
-            archetypes: [],
-            selectedArchetype: '',
+            // archetypes: [],
+            // selectedArchetype: '',
 
         }
     },
@@ -60,9 +59,25 @@ export default{
 
         
         filterResults(){
-            console.log('filter');
 
-            const url = `${state.base_api_url}&archetype=${this.selectedArchetype}`
+            // console.log('filter');
+
+            // const url = `${state.base_api_url}&archetype=${state.selectedArchetype}`
+
+            // state.getCharacters(url)
+
+            let url;
+
+            // condizione per selezionare all nella select
+            if (state.selectedArchetype === 'all'){
+
+                url = state.base_api_url;
+
+            } else {
+
+                url = `${state.base_api_url}&archetype=${state.selectedArchetype}`;
+
+            }
 
             state.getCharacters(url)
 
@@ -85,28 +100,25 @@ export default{
         
             // })
 
-            console.log(url);
-
         },
 
-        getArchetypesList(url){
+        // getArchetypesList(url){             //spostato nello state
 
-            axios
-            .get(url)
-            .then((response) => {
+        //     axios
+        //     .get(url)
+        //     .then((response) => {
 
-                console.log(response);
+        //         console.log(response);
 
-                this.archetypes = response.data
-            })
-            .catch((error) => {
+        //         this.archetypes = response.data
+        //     })
+        //     .catch((error) => {
         
-            console.error(error);
+        //     console.error(error);
 
-            })
+        //     })
 
-        },
-
+        // },
 
     },
 
@@ -114,9 +126,7 @@ export default{
     mounted(){
 
         // All archetypes
-        this.getArchetypesList('https://db.ygoprodeck.com/api/v7/archetypes.php')
-
-        
+        // this.getArchetypesList('https://db.ygoprodeck.com/api/v7/archetypes.php')                 //spostato in ArchetypesFilter
 
 
         // Inseriamo il setTimeout per far ritardare di qualche secondo la chiamata
@@ -147,7 +157,7 @@ export default{
 
         getResults(){
 
-            return state.characters ? state.characters.length : 'Nessun risultato'
+            return state.characters.length;
 
         }
 
@@ -165,7 +175,7 @@ export default{
 
             <div class="filter">
 
-                <select name="archetype" id="archetype" v-model="selectedArchetype" @change="filterResults">
+                <!-- <select name="archetype" id="archetype" v-model="selectedArchetype" @change="filterResults">            //spostato in ArchetypesFilter
 
                     <option value="all" selected>All</option>
 
@@ -175,7 +185,9 @@ export default{
 
                     </option>
                     
-                </select>
+                </select> -->
+
+                <ArchetypesFilter @filter="filterResults"></ArchetypesFilter>
 
             </div>
 
